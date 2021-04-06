@@ -1,45 +1,68 @@
-//types of houseplants
-let plants = [{
-  name: "anthurium",
-  color: "black king"
+//sets and reps combination
+let workout = [{
+  numberOfSets: "3",
+  numberOfReps: "5"
 }, {
-  name: "philodendron",
-  color: "green congo"
+  numberOfSets: "5",
+  numberOfReps: "8"
 }, {
-  name: "calathea",
-  color: "white fusion"
+  numberOfSets: "2",
+  numberOfReps: "15"
 }, {
-  name: "potho",
-  color: "grey feather"
+  numberOfSets: "3",
+  numberOfReps: "20"
 }, {
-  name: "peperomia",
-  color: "striped one"
+  numberOfSets: "5",
+  numberOfReps: "10"
 }, {
-  name: "hoya",
-  color: "murky splash"
+  numberOfSets: "2",
+  numberOfReps: "9"
+}, {
+  numberOfSets: "3",
+  numberOfReps: "7"
 }];
 
 
 let randomIndex;
 let animating = false;
-// let counter = 0;
+let workoutImages = [];
+let imageCounter = 0;
+let button;
+
+function preload(){
+  for (let i = 0; i < 5; i++){
+    workoutImages[i] = loadImage("assets/workout_" + i + ".jpg");
+  }
+}
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 600);
   background(220);
-  textSize(24);
-  text("click to randomize", 50, 50);
+  textSize(36);
+  //text("click to randomize", 50, 50);
+  imageMode(CENTER);
+  textFont('Avant Garde');
+  textStyle(BOLD);
+  frameRate(12);
 
-  // setTimeout(changeBackground, 1000);
-
+  button = createButton("Click to choose workout");
+  button.mousePressed(buttonPressed);
+  button.style("padding", "15px");
+  button.style("background-color", "#42f5d4");
 }
 
 function draw() {
 
-if(animating==true){
-  ellipse(random(width), random(height), random(50, 200));
-
-}
+  if(animating==true){
+    //ellipse(random(width), random(height), random(50, 200));
+    clear();
+    image(workoutImages[imageCounter], width/2, height/2);
+    if (imageCounter < workoutImages.length - 1){
+      imageCounter++;
+    } else {
+      imageCounter = 0;
+    }
+  }
 
 
 
@@ -56,27 +79,24 @@ if(animating==true){
 
 
 function randomizer(){
-animating = false;
+  animating = false;
 
-
-  if (plants[0]){
-    background(random(150,200));
-    randomIndex= int(random(plants.length));
-    text(`${plants[randomIndex].name}'s one type of color
-    is ${plants[randomIndex].color}`, 50,50);
-    // text(plants[randomIndex].name + "'s natural color is " + plants[randomIndex].color, 50,50);
-    plants.splice(randomIndex, 1);
+  if (workout[0]){
+    //background(random(150,255));
+    clear();
+    randomIndex = int(random(workout.length));
+    image(random(workoutImages), width/2, height/2);
+    text(`${workout[randomIndex].numberOfSets} sets of ${workout[randomIndex].numberOfReps} reps`, width/2, 80);
+    workout.splice(randomIndex, 1);
   } else {
-  background(random(150,200));
-  text("thats all folks!", 50, 50)
-
+    background(random(150,255));
+    text("Finished workout!", 50, 50);
   }
 }
 
-function mousePressed() {
+function buttonPressed() {
   animating = true;
-  setTimeout (randomizer, 2000);
-
+  setTimeout(randomizer, 2000);
 }
 
 
